@@ -12,27 +12,146 @@ var chocolates = [
 ];
 
 //Progression 1: Add ___ chocolates of ____ color
+function addChocolates(chocolates,color, count) {
+    if (count <= 0)
+    return "Number cannot be zero/negative";
+    for (var i = 0; i < count; i++) {
+        chocolates.unshift(color);
+    }
+}
 
 
 //Progression 2: Remove ___ chocolates from the top the dispenser
+function removeChocolates(chocolates, number) {
+    let res = []
+    if (number <= 0)
+    return "Number cannot be zero/negative";
+    if (chocolates.length < number)
+    return "Insufficient chocolates in the dispenser";
+    for (var i = 0; i < number; i++) {
+        res[i] = chocolates.shift();
+    }
+    return res;
+}
 
 
-//Progression 3: Dispense ___ chocolates
+//Progression 3: Dispense ___ chocolates\
+function dispenseChocolates(chocolates, number) {
+    let res = []
+    if (number <= 0)
+    return "Number cannot be zero/negative";
+    if (chocolates.length < number)
+    return "Insufficient chocolates in the dispenser";
+    for (var i = 0; i < number; i++) {
+        res[i] = chocolates.pop();
+    }
+    return res;
+}
 
 
 //Progression 4: Dispense ___ chocolates of ____ color
+function dispenseChocolatesOfColor(chocolates,number, color) {
+    let res = []
+    if (number <= 0)
+    return "Number cannot be zero/negative";
+    if (chocolates.length < number)
+    return "Insufficient chocolates in the dispenser";
+    var i = 0;
+    var n = chocolates.length - 1;
+    while (number > 0) {
+        if (chocolates[n] == color) {
+            res[i] = chocolates.pop();
+            i++;
+            number--;
+        }
+        n--;
+    }
+    return res;
+}
 
 
 //Progression 5: Display ___ chocolates of each color. Return array of numbers [green, silver, blue, crimson, purple, red, pink]
+function noOfChocolates(chocolates) {
+    if (chocolates.length <= 0)
+    return [];
+    let res = [];
+    for(var i = 0; i < chocolates.length; i++) {
+        if(chocolates[i] !== 0) {
+            var count = 1;
+            for(var j = i + 1; j < chocolates.length; j++) {
+                if(chocolates[i] == chocolates[j]) {
+                    count++;
+                    chocolates[j]=0;
+                }
+            }
+            res.push(count);
+        }
+    }
+    return res;
+}
 
 
 //Progression 6: Sort chocolates based on count in each color. Return array of colors
+function sortChocolateBasedOnCount(chocolates) {
+    let col = chocolates.reduce(function (b, a) {
+        if (a in b) {
+            b[a]++;
+        } else {
+            b[a] = 1;
+        }
+        return b;
+    }, {});
+    let Array = chocolates.sort((a, b) => {
+        if (col[b] > col[a]) {
+            return 1;
+        }
+        if (col[b] < col[a]) {
+            return -1;
+        }
+        if (a > b) {
+            return 1;
+        }
+        if (a < b) {
+            return -1;
+        }
+    });
+    chocolates = Array;
+}
 
 
 //Progression 7: Change ___ chocolates of ____ color to ____ color
+function changeChocolateColor(chocolates,number, color, finalColor) {
+    if (number < 0)
+    return "Number cannot be zero/negative";
+    if (color == finalColor)
+    return "Can't replace the same chocolates";
+    var n = chocolates.length;
+    for (var i = 0; i < n; i++) {
+        if (number > 0 && chocolates[i] == color)
+        chocolates[i] = finalColor;
+    }
+    return chocolates;
+}
 
 
 //Progression 8: Change all chocolates of ____ color to ____ color and return [countOfChangedColor, chocolates]
+function changeChocolateColorAllOfxCount(chocolates,color, finalColor) {
+    if (chocolates.length <= 0)
+    return [0, []];
+    if (color == finalColor)
+    return "Can't replace the same chocolates";
+    var n = chocolates.length;
+    for (var i = 0; i < n; i++) {
+        if (chocolates[i] == color)
+        chocolates[i] = finalColor;
+    }
+    var count = 0;
+    chocolates.forEach(element => {
+        if (element == finalColor)
+        count++;
+    });
+    return [count, chocolates];
+}
 
 
 //Challenge 1: Remove one chocolate of ____ color from the top
